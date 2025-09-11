@@ -3,7 +3,8 @@
   align-items: center;
   gap: 8px;
 
-  width: 60%;
+  width: 100%;
+  max-width: 800px;
   margin: 20px auto; 
   padding: 8px 12px;
 
@@ -21,8 +22,29 @@
   color: var(--color-text);
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.cardsContainer {
+  width: 100%;
+  max-width: 800px;
+}
+
 @media (max-width: 450px){
-    .barraPesquisa{
+    .barraPesquisa,
+    .cardsContainer {
         width: 80%;
     }
+}
+
+@media (max-width: 800px) {
+  .barraPesquisa,
+  .cardsContainer {
+    width: 80%; 
+  }
 }

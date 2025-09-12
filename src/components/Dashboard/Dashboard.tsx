@@ -2,6 +2,7 @@ import ServiceCard from "../ServiceCard/ServiceCard";
 import styles from "./Dashboard.module.css";
 import { Search } from "lucide-react";
 import { useServiceStatus } from "../../hooks/useServiceStatus";
+import ServiceCardSkeleton from "../ServiceCard/ServiceCardSkeleton";
 
 export default function Dashboard() {
   const { services, isLoading, error } = useServiceStatus();
@@ -20,13 +21,21 @@ export default function Dashboard() {
       </div>
 
       <div className={styles.cardsContainer}>
-        {isLoading && <p className={styles.loading}>Carregando serviços...</p>}
-        {error && <p>Erro ao carregar: {error.message}</p>}
-        {!isLoading &&
-          !error &&
+        {isLoading ? (
+          <>
+            <ServiceCardSkeleton />
+            <ServiceCardSkeleton />
+            <ServiceCardSkeleton />
+            <ServiceCardSkeleton />
+            <ServiceCardSkeleton />
+          </>
+        ) : error ? (
+          <p>Erro ao carregar: {error.message}</p>
+        ) : (
           services.map((service) => (
             <ServiceCard key={service.id} service={service} />
-          ))}
+          ))
+        )}
       </div>
     </div>
   );

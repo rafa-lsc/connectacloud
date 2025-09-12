@@ -1,0 +1,55 @@
+.cardSkeleton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    max-width: 100%;
+    padding: 12px;
+    border-radius: 1.2rem;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    border: solid 2px;
+
+    background-color: var(--color-card-bg);
+    border-color: var(--color-border);
+}
+
+.loadingContainer {
+    display: flex;
+}
+
+.nameSkeleton {
+    width: 30%; 
+    height: 6vh;
+
+    margin-bottom: 3vh;
+    margin-top: 3vh;
+
+    border-radius: 6px;
+    background-color: var(--color-border);
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.statusSkeleton {
+    width: 15%;  
+    height: 6vh;
+
+    margin-bottom: 3vh;
+    margin-top: 3vh;
+
+    border-radius: 6px;
+    background-color: var(--color-border);
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -35,11 +35,12 @@
   max-width: 800px;
 }
 
-.loading {
+.notFound {
   font-weight: bold;
   text-align: center;
   color: var(--color-primary);
 }
+
 
 @media (max-width: 450px){
     .barraPesquisa,

@@ -35,6 +35,12 @@
   max-width: 800px;
 }
 
+.loading {
+  font-weight: bold;
+  text-align: center;
+  color: var(--color-primary);
+}
+
 @media (max-width: 450px){
     .barraPesquisa,
     .cardsContainer {

@@ -4,10 +4,13 @@ import { Search } from "lucide-react";
 import { useServiceStatus } from "../../hooks/useServiceStatus";
 import ServiceCardSkeleton from "../ServiceCard/ServiceCardSkeleton";
 import { useState } from "react";
+import ServiceModal from "../ServiceModal/ServiceModal";
+import type { Service } from "../../types";
 
 export default function Dashboard() {
   const { services, isLoading, error } = useServiceStatus();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   const filteredServices = services.filter((service) =>
     service.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -41,12 +44,22 @@ export default function Dashboard() {
           <p>Erro ao carregar: {error.message}</p>
         ) : filteredServices.length > 0 ? (
           filteredServices.map((service) => (
-            <ServiceCard key={service.id} service={service} />
+            <div key={service.id} onClick={() => setSelectedService(service)}>
+              <ServiceCard service={service} />
+            </div>
           ))
         ) : (
           <p className={styles.notFound}>Nenhum serviço encontrado</p>
         )}
       </div>
+
+      {selectedService && (
+        <ServiceModal
+          service={selectedService}
+          onClose={() => setSelectedService(null)}
+        />
+      )}
     </div>
   );
 }
+

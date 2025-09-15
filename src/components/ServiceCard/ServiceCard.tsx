@@ -1,28 +1,31 @@
-import React from "react";
-import styles from "./ServiceCard.module.css"
-import type { Service } from "../../types";
-import type { ServiceStatus } from "../../types";
+import React, { useMemo } from "react";
+import styles from "./ServiceCard.module.css";
+import type { Service, ServiceStatus } from "../../types";
 
-interface ServiceCardProps{
-    service: Service;
+interface ServiceCardProps {
+  service: Service;
+  onClick?: () => void;
 }
 
-export default function ServiceCard({service}: ServiceCardProps){
-
-    const statusClasses: Record<ServiceStatus, string>  = {
-        operational: styles.operational,
-        degraded: styles.degraded,
-        outage: styles.outage
+function ServiceCardComponent({ service, onClick }: ServiceCardProps) {
+  const statusClass = useMemo(() => {
+    const statusClasses: Record<ServiceStatus, string> = {
+      operational: styles.operational,
+      degraded: styles.degraded,
+      outage: styles.outage,
     };
+    return statusClasses[service.status.toLowerCase() as ServiceStatus] || "";
+  }, [service.status]);
 
-    const statusClass = statusClasses[service.status.toLowerCase() as ServiceStatus] || '';
 
-    return(
-        <div className={styles.card}>
-            <h2 className={styles.name}>{service.name}</h2>
-            <div className={`${styles.statusContainer} ${statusClass}`}>
-                <p className={styles.status}>{service.status}</p>
-            </div>
-        </div>
-    );
+  return (
+    <div className={styles.card} onClick={onClick}>
+      <h2 className={styles.name}>{service.name}</h2>
+      <div className={`${styles.statusContainer} ${statusClass}`}>
+        <p className={styles.status}>{service.status}</p>
+      </div>
+    </div>
+  );
 }
+
+export default React.memo(ServiceCardComponent);

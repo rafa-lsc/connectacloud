@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import styles from "./ServiceModal.module.css";
 import type { Service } from "../../types";

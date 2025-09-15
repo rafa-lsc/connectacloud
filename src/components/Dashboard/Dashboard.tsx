@@ -3,7 +3,7 @@ import styles from "./Dashboard.module.css";
 import { Search } from "lucide-react";
 import { useServiceStatus } from "../../hooks/useServiceStatus";
 import ServiceCardSkeleton from "../ServiceCard/ServiceCardSkeleton";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import ServiceModal from "../ServiceModal/ServiceModal";
 import type { Service } from "../../types";
 
@@ -15,6 +15,10 @@ export default function Dashboard() {
   const filteredServices = services.filter((service) =>
     service.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleSelectService = useCallback((service: Service) => {
+    setSelectedService(service);
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -44,9 +48,11 @@ export default function Dashboard() {
           <p>Erro ao carregar: {error.message}</p>
         ) : filteredServices.length > 0 ? (
           filteredServices.map((service) => (
-            <div key={service.id} onClick={() => setSelectedService(service)}>
-              <ServiceCard service={service} />
-            </div>
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onClick={() => handleSelectService(service)}
+            />
           ))
         ) : (
           <p className={styles.notFound}>Nenhum serviço encontrado</p>
@@ -62,4 +68,3 @@ export default function Dashboard() {
     </div>
   );
 }
-

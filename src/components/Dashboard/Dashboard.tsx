@@ -6,6 +6,7 @@ import ServiceCardSkeleton from "../ServiceCard/ServiceCardSkeleton";
 import { useCallback, useState } from "react";
 import ServiceModal from "../ServiceModal/ServiceModal";
 import type { Service } from "../../types";
+import ErrorBoundary from "../Error/ErrorBoundary";
 
 export default function Dashboard() {
   const { services, isLoading, error } = useServiceStatus();
@@ -48,11 +49,17 @@ export default function Dashboard() {
           <p>Erro ao carregar: {error.message}</p>
         ) : filteredServices.length > 0 ? (
           filteredServices.map((service) => (
-            <ServiceCard
+            <ErrorBoundary
               key={service.id}
-              service={service}
-              onClick={() => handleSelectService(service)}
-            />
+              fallback={
+                <p className={styles.cardError}>Erro ao exibir este serviço</p>
+              }
+            >
+              <ServiceCard
+                service={service}
+                onClick={() => setSelectedService(service)}
+              />
+            </ErrorBoundary>
           ))
         ) : (
           <p className={styles.notFound}>Nenhum serviço encontrado</p>

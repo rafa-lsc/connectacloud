@@ -8,6 +8,7 @@ interface ServiceCardProps {
 }
 
 function ServiceCardComponent({ service, onClick }: ServiceCardProps) {
+
   const statusClass = useMemo(() => {
     const statusClasses: Record<ServiceStatus, string> = {
       operational: styles.operational,
@@ -16,7 +17,6 @@ function ServiceCardComponent({ service, onClick }: ServiceCardProps) {
     };
     return statusClasses[service.status.toLowerCase() as ServiceStatus] || "";
   }, [service.status]);
-
 
   return (
     <div className={styles.card} onClick={onClick}>

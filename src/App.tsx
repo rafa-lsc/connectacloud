@@ -3,16 +3,19 @@ import Header from "./components/Header/Header";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import "./styles/globals.css";
+import ErrorBoundary from "./components/Error/ErrorBoundary";
 
 function App() {
   return (
     <ThemeProvider>
-      <div>
-        <Header />
-        <main>
-          <Dashboard />
-        </main>
-      </div>
+      <ErrorBoundary>
+        <div>
+          <Header />
+          <main>
+            <Dashboard />
+          </main>
+        </div>
+      </ErrorBoundary>
     </ThemeProvider>
   );
 }

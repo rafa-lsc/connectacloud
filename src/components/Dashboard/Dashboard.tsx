@@ -1,25 +1,34 @@
-import ServiceCard from "../ServiceCard/ServiceCard";
-import styles from "./Dashboard.module.css";
+import { useState, useEffect, useMemo } from "react";
 import { Search } from "lucide-react";
-import { useServiceStatus } from "../../hooks/useServiceStatus";
-import ServiceCardSkeleton from "../ServiceCard/ServiceCardSkeleton";
-import { useCallback, useState } from "react";
-import ServiceModal from "../ServiceModal/ServiceModal";
+import { useServiceStore } from "../../stores/ServiceStore";
 import type { Service } from "../../types";
+
+import styles from "./Dashboard.module.css";
+import ServiceCard from "../ServiceCard/ServiceCard";
+import ServiceCardSkeleton from "../ServiceCard/ServiceCardSkeleton";
+import ServiceModal from "../ServiceModal/ServiceModal";
 import ErrorBoundary from "../Error/ErrorBoundary";
 
 export default function Dashboard() {
-  const { services, isLoading, error } = useServiceStatus();
+  const allServices = useServiceStore((state) => state.services.allIds);
+  const isLoading = useServiceStore((state) => state.isLoading);
+  const error = useServiceStore((state) => state.error);
+  const loadServices = useServiceStore((state) => state.loadServices);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
-  const filteredServices = services.filter((service) =>
-    service.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    loadServices();
+  }, [loadServices]);
 
-  const handleSelectService = useCallback((service: Service) => {
-    setSelectedService(service);
-  }, []);
+  const filteredServices = useMemo(
+    () =>
+      allServices.filter((service) =>
+        service.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ),
+    [allServices, searchTerm]
+  );
 
   return (
     <div className={styles.container}>
@@ -43,10 +52,9 @@ export default function Dashboard() {
             <ServiceCardSkeleton />
             <ServiceCardSkeleton />
             <ServiceCardSkeleton />
-            <ServiceCardSkeleton />
           </>
         ) : error ? (
-          <p>Erro ao carregar: {error.message}</p>
+          <p className={styles.cardError}>Erro ao carregar: {error}</p>
         ) : filteredServices.length > 0 ? (
           filteredServices.map((service) => (
             <ErrorBoundary

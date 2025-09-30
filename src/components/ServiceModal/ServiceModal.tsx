@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
-import styles from "./ServiceModal.module.css";
 import type { Service } from "../../types";
+import { Button } from "../ui/button";
 
 interface ServiceModalProps {
   service: Service;
@@ -14,18 +14,35 @@ export default function ServiceModal({ service, onClose }: ServiceModalProps) {
   useEffect(() => {}, [onClose]);
 
   const modalContent = (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-card p-8 rounded-lg max-w-[400px] w-[90%] shadow-black/25"
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2>{service.name}</h2>
-        <p><strong>Status:</strong> {service.status}</p>
-        <p><strong>Latência:</strong> {service.latency} ms</p>
-        <p><strong>Última checagem:</strong> {new Date(service.lastChecked).toLocaleString()}</p>
+        <p>
+          <strong>Status:</strong> {service.status}
+        </p>
+        <p>
+          <strong>Latência:</strong> {service.latency} ms
+        </p>
+        <p>
+          <strong>Última checagem:</strong>{" "}
+          {new Date(service.lastChecked).toLocaleString()}
+        </p>
 
-        <button onClick={onClose} className={styles.close}>Fechar</button>
+        <Button
+          onClick={onClose}
+          className="mt-4 bg-primary text-primary-foreground px-4 py-2 rounded-md cursor-pointer"
+        >
+          Fechar
+        </Button>
       </div>
     </div>
   );
 
   return ReactDOM.createPortal(modalContent, modalRoot);
 }
-

@@ -1,5 +1,6 @@
 import React from "react";
-import type { Service, ServiceStatus } from "../../types";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card"
+import type { Service } from "../../types";
 
 interface ServiceCardProps {
   service: Service;
@@ -13,17 +14,22 @@ const statusColorMap: Record<Service["status"], string> = {
 };
 
 function ServiceCardComponent({ service, onClick }: ServiceCardProps) {
-
   return (
-    <div
-      className="flex justify-between items-center max-w-[100%] p-3 rounded-lg mt-3 mb-3 border-2 border-border bg-card"
+    <Card 
+      className="mt-2 mb-2 cursor-pointer hover:border-primary transition-colors" 
       onClick={onClick}
     >
-      <h2 className="primary font-semibold">{service.name}</h2>
-      <div className={`rounded-xl px-1 py-1 w-[13%] text-center text-white ${statusColorMap[service.status]}`}>
-        <p className="text-primary truncate hidden sm:block md:block">{service.status}</p>
-      </div>
-    </div>
+      <CardContent className="flex justify-between items-center px-4 py-1.5">
+        <CardTitle className="text-primary font-semibold text-base">
+          {service.name}
+        </CardTitle>
+          <div className={`rounded-xl px-1 py-1 w-[13%] text-center text-white ${statusColorMap[service.status]}`}>
+            <p className="text-sm truncate hidden sm:block">
+              {service.status}
+            </p>
+          </div>
+      </CardContent>
+    </Card>
   );
 }
 

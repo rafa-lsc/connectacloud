@@ -7,6 +7,7 @@ import ServiceCard from "../ServiceCard/ServiceCard";
 import ServiceCardSkeleton from "../ServiceCard/ServiceCardSkeleton";
 import ServiceModal from "../ServiceModal/ServiceModal";
 import ErrorBoundary from "../Error/ErrorBoundary";
+import { Input } from "../ui/input";
 
 export default function Dashboard() {
   const allServices = useServiceStore((state) => state.services.allIds);
@@ -30,19 +31,20 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex items-center gap-2 w-full max-w-[800px] mt-5 mb-5 mr-auto ml-auto px-2 py-3 bg-card border-2 border-border rounded-xl">
-        <input
-          type="text"
-          placeholder="Pesquisar..."
-          className="flex-1 border-none outline-none text-sm bg-transparent text-primary" 
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <span>
-          <Search />
-        </span>
-      </div>
+    <div className="flex flex-col justify-center items-center sm:px-8 md:px-8">
+        <div className="flex items-center gap-2 w-full max-w-[800px] mt-5 mb-5 ">
+          <span>
+            <Search></Search>
+          </span>
+          <Input
+            type="text"
+            placeholder="Pesquisar..."
+            className="mr-auto ml-auto px-2 py-3 bg-card border-2 border-border rounded-xl flex-1 border-none outline-none text-sm text-primary"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
 
       <div className="w-full max-w-[800px]">
         {isLoading ? (
